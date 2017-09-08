@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ActionSliderView.h"
 
-@interface ViewController : UIViewController
-@property (retain, nonatomic) IBOutlet UIButton *jailbreakButton;
-
-- (IBAction)yolo:(id)sender;
+@interface ViewController : UIViewController <ActionSliderDelegate>
+@property (strong, nonatomic) ActionSliderView *slider;
 
 @end
 

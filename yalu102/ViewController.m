@@ -37,12 +37,49 @@ typedef struct {
     uname(&u);
     
 
+    self.slider = [[ActionSliderView alloc] initWithFrame:CGRectMake(35, self.view.bounds.size.height - 70, self.view.bounds.size.width - 70, 50)];
+    self.slider.delegate = self;
+    [self.view addSubview:self.slider];
+    
+    
     if (strstr(u.version, "MarijuanARM")) {
-        self.jailbreakButton.enabled = NO;
-        [self.jailbreakButton setTitle:@"already jailbroken" forState:UIControlStateDisabled];
+        self.slider.enabled = NO;
+        self.slider.trackLabel.text = @"Already Jailbroken";
     }
+}
 
-    // Do any additional setup after loading the view, typically from a nib.
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self showAlert];
+}
+
+- (void)showAlert {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Temporary Title" message:@"Temporary Message" preferredStyle:UIAlertControllerStyleAlert];
+    
+    NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@"Yalu102"];
+    [title addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, title.length)];
+    [alertController setValue:title forKey:@"_attributedTitle"];
+    
+    NSMutableAttributedString *message = [[NSMutableAttributedString alloc] initWithString:@"This Jailbreak is working with all 64-bit-iDevices ( iPhone 5S, iPod Touch 6G, iPad Air, iPad mini 2 or newer ) running on 10.2 \n\n Have Patience - sometimes you need multiple tries to get it working."];
+    [message addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:12] range:NSMakeRange(0, message.length)];
+    [message addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0, message.length)];
+    [alertController setValue:message forKey:@"_attributedMessage"];
+    
+    UIView *firstSubview = alertController.view.subviews.firstObject;
+    UIView *alertContentView = firstSubview.subviews.firstObject;
+    for (UIView *subSubView in alertContentView.subviews) {
+        subSubView.backgroundColor = [UIColor blackColor];
+    }
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+
+- (void)sliderDidComplete:(ActionSliderView *)slider {
+    slider.trackLabel.text = @"Jailbreaking";
+    [self jailbreakDevice:slider];
 }
 
 typedef natural_t not_natural_t;
@@ -117,8 +154,7 @@ struct not_essers_ipc_object {
 #define IKOT_CLOCK 25
 
 char dt[128];
-- (IBAction)yolo:(UIButton*)sender
-{
+- (void)jailbreakDevice:(ActionSliderView *)slider {
     /*
      
      we out here!
@@ -253,7 +289,7 @@ char dt[128];
             ports[i] = 0;
         }
     }
-    [sender setTitle:@"failed, retry" forState:UIControlStateNormal];
+    slider.trackLabel.text = @"Failed, Retry";
     return;
     
 foundp:
@@ -273,7 +309,7 @@ foundp:
             }
         }
     }
-    [sender setTitle:@"failed, retry" forState:UIControlStateNormal];
+    slider.trackLabel.text = @"Failed, Retry";
     return;
     
 gotclock:;
@@ -371,21 +407,10 @@ gotclock:;
     extern uint64_t slide;
     slide = kernel_base - 0xFFFFFFF007004000;
     
-    void exploit(void*, mach_port_t, uint64_t, uint64_t);
-    exploit(sender, pt, kernel_base, allproc_offset);
-    self.jailbreakButton.enabled = NO;
-    [self.jailbreakButton setTitle:@"already jailbroken" forState:UIControlStateDisabled];
-
+    void exploit(mach_port_t, uint64_t, uint64_t);
+    exploit(pt, kernel_base, allproc_offset);
+    slider.enabled = NO;
+    slider.trackLabel.text = @"Already Jailbroken";
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
-- (void)dealloc {
-    [_jailbreakButton release];
-    [super dealloc];
-}
 @end
