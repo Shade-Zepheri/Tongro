@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		33027B3B1F62F8E8001BA94F /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 33027B3A1F62F8E8001BA94F /* IOKit.framework */; };
 		EA1A3B9D1E391C4F009CA025 /* patchfinder64.o in Frameworks */ = {isa = PBXBuildFile; fileRef = EA1A3B9C1E391C4F009CA025 /* patchfinder64.o */; };
 		EA1A3BA81E398E33009CA025 /* 0.reload.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA1A3BA61E398E33009CA025 /* 0.reload.plist */; };
 		EA1A3BAD1E399006009CA025 /* reload in Resources */ = {isa = PBXBuildFile; fileRef = EA1A3BAC1E399006009CA025 /* reload */; };
@@ -21,13 +22,12 @@
 		EA99010A1E21A04C0056FEBD /* tar in Resources */ = {isa = PBXBuildFile; fileRef = EA9901091E21A04C0056FEBD /* tar */; };
 		EA99010C1E21A0520056FEBD /* launchctl in Resources */ = {isa = PBXBuildFile; fileRef = EA99010B1E21A0520056FEBD /* launchctl */; };
 		EA99010E1E21A1560056FEBD /* jailbreak.m in Sources */ = {isa = PBXBuildFile; fileRef = EA99010D1E21A1560056FEBD /* jailbreak.m */; };
-		EA9901141E21A1B00056FEBD /* iokitmig64.o in Frameworks */ = {isa = PBXBuildFile; fileRef = EA9901131E21A1B00056FEBD /* iokitmig64.o */; };
 		EA9901171E21A1D90056FEBD /* devicesupport.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9901161E21A1D90056FEBD /* devicesupport.m */; };
-		EA9901191E21A2180056FEBD /* IOKit.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = EA9901181E21A2180056FEBD /* IOKit.tbd */; };
 		EAA7F7C71E3EE4AF00BE3C64 /* dropbear.plist in Resources */ = {isa = PBXBuildFile; fileRef = EAA7F7C61E3EE4AF00BE3C64 /* dropbear.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		33027B3A1F62F8E8001BA94F /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		EA1A3B9B1E38BBDB009CA025 /* patchfinder64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = patchfinder64.h; sourceTree = "<group>"; };
 		EA1A3B9C1E391C4F009CA025 /* patchfinder64.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = patchfinder64.o; sourceTree = "<group>"; };
 		EA1A3BA61E398E33009CA025 /* 0.reload.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = 0.reload.plist; sourceTree = "<group>"; };
@@ -49,10 +49,8 @@
 		EA99010B1E21A0520056FEBD /* launchctl */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = launchctl; sourceTree = "<group>"; };
 		EA99010D1E21A1560056FEBD /* jailbreak.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = jailbreak.m; sourceTree = "<group>"; };
 		EA99010F1E21A1A00056FEBD /* pte_stuff.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pte_stuff.h; sourceTree = "<group>"; };
-		EA9901131E21A1B00056FEBD /* iokitmig64.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = iokitmig64.o; sourceTree = "<group>"; };
 		EA9901151E21A1D90056FEBD /* devicesupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = devicesupport.h; sourceTree = "<group>"; };
 		EA9901161E21A1D90056FEBD /* devicesupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = devicesupport.m; sourceTree = "<group>"; };
-		EA9901181E21A2180056FEBD /* IOKit.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = IOKit.tbd; sourceTree = "<group>"; };
 		EAA7F7C61E3EE4AF00BE3C64 /* dropbear.plist */ = {isa = PBXFileReference; explicitFileType = file.bplist; path = dropbear.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -61,20 +59,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EA9901141E21A1B00056FEBD /* iokitmig64.o in Frameworks */,
+				33027B3B1F62F8E8001BA94F /* IOKit.framework in Frameworks */,
 				EA1A3B9D1E391C4F009CA025 /* patchfinder64.o in Frameworks */,
-				EA9901191E21A2180056FEBD /* IOKit.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33027B391F62F8E8001BA94F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				33027B3A1F62F8E8001BA94F /* IOKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		EA9900DA1E1E9F060056FEBD = {
 			isa = PBXGroup;
 			children = (
 				EA9900E51E1E9F060056FEBD /* yalu102 */,
 				EA9900E41E1E9F060056FEBD /* Products */,
+				33027B391F62F8E8001BA94F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,11 +112,9 @@
 				EA9901051E219FF10056FEBD /* bootstrap.tar */,
 				EA9901091E21A04C0056FEBD /* tar */,
 				EA99010B1E21A0520056FEBD /* launchctl */,
-				EA9901131E21A1B00056FEBD /* iokitmig64.o */,
 				EA1A3B9C1E391C4F009CA025 /* patchfinder64.o */,
 				EA99010F1E21A1A00056FEBD /* pte_stuff.h */,
 				EA1A3BC41E39D1FF009CA025 /* Assets.xcassets */,
-				EA9901181E21A2180056FEBD /* IOKit.tbd */,
 				EA9901151E21A1D90056FEBD /* devicesupport.h */,
 				EA9901161E21A1D90056FEBD /* devicesupport.m */,
 				EA9900E61E1E9F060056FEBD /* Supporting Files */,
@@ -157,7 +161,7 @@
 				TargetAttributes = {
 					EA9900E21E1E9F060056FEBD = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = CGTX3WH3ZS;
+						DevelopmentTeam = 36G86N4FPV;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -337,14 +341,14 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				DEVELOPMENT_TEAM = CGTX3WH3ZS;
+				DEVELOPMENT_TEAM = 36G86N4FPV;
 				INFOPLIST_FILE = yalu102/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/yalu102",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kim.cracksby.yalu102;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shade.yalu102;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = armv7;
 			};
@@ -356,14 +360,14 @@
 				ARCHS = armv7;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_OBJC_ARC = NO;
-				DEVELOPMENT_TEAM = CGTX3WH3ZS;
+				DEVELOPMENT_TEAM = 36G86N4FPV;
 				INFOPLIST_FILE = yalu102/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/yalu102",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kim.cracksby.yalu102;
+				PRODUCT_BUNDLE_IDENTIFIER = com.shade.yalu102;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				VALID_ARCHS = armv7;
 			};
