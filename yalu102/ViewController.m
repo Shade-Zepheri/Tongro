@@ -38,8 +38,8 @@ typedef struct {
     
 
     if (strstr(u.version, "MarijuanARM")) {
-        [dope setEnabled:NO];
-        [dope setTitle:@"already jailbroken" forState:UIControlStateDisabled];
+        self.jailbreakButton.enabled = NO;
+        [self.jailbreakButton setTitle:@"already jailbroken" forState:UIControlStateDisabled];
     }
 
     // Do any additional setup after loading the view, typically from a nib.
@@ -373,8 +373,8 @@ gotclock:;
     
     void exploit(void*, mach_port_t, uint64_t, uint64_t);
     exploit(sender, pt, kernel_base, allproc_offset);
-    [dope setEnabled:NO];
-    [dope setTitle:@"already jailbroken" forState:UIControlStateDisabled];
+    self.jailbreakButton.enabled = NO;
+    [self.jailbreakButton setTitle:@"already jailbroken" forState:UIControlStateDisabled];
 
 }
 
@@ -384,4 +384,8 @@ gotclock:;
 }
 
 
+- (void)dealloc {
+    [_jailbreakButton release];
+    [super dealloc];
+}
 @end

@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController : UIViewController
-{
-    IBOutlet UIButton* dope;
-}
+@property (retain, nonatomic) IBOutlet UIButton *jailbreakButton;
+
 - (IBAction)yolo:(id)sender;
 
 @end
